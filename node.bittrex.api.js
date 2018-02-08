@@ -177,6 +177,13 @@ var NodeBittrexApi = function(options) {
     websocketMarkets = [];
     websocketMarketsCallbacks = [];
   };
+  
+  var kill = function () {
+    if (wsclient) {
+      wsclient.end();
+      wsclient = undefined;
+    }
+  };
 
   var connectws = function(callback, force) {
     if (wsclient && !force && callback) {
@@ -363,6 +370,7 @@ var NodeBittrexApi = function(options) {
     options: function(options) {
       extractOptions(options);
     },
+    kill: kill,
     websockets: {
       client: function(callback, force) {
         return connectws(callback, force);
